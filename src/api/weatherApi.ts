@@ -1,8 +1,7 @@
-const BASE_URL = "https://api.open-meteo.com/v1/forecast";
+import { BASE_URL, urls } from "./apiUrls";
 
-const urls = {
-  get: {
-    currentWeather: (latitude: number, longitude: number) =>
-      `?latitude=${latitude}&longitude=${longitude}&current_weather=true`,
-  },
+export const getCurrentWeather = async (latitue: number, longitude: number) => {
+  return await (
+    await fetch(`${BASE_URL}${urls.get.currentWeather(latitue, longitude)}`)
+  ).json();
 };

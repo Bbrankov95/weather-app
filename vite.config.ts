@@ -9,6 +9,11 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       hooks: path.resolve(__dirname, "./src/hooks"),
+      api: path.resolve(__dirname, "./src/api"),
+      components: path.resolve(__dirname, "./src/components"),
+      types: path.resolve(__dirname, "./src/types"),
+      shared: path.resolve(__dirname, "./src/shared"),
+      assets: path.resolve(__dirname, "./src/assets"),
     },
   },
 });

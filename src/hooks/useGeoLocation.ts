@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { GeoLocation } from "types";
 
@@ -16,6 +16,14 @@ const initialState: GeoLocation = {
 const useGeoLocation = () => {
   const [location, setLocation] = useState<GeoLocation>(initialState);
 
+  const getGeoLocation = () => {
+    return navigator.geolocation.getCurrentPosition(
+      onSuccess,
+      onError,
+      options
+    );
+  };
+
   const onSuccess = useCallback((pos: GeolocationPosition) => {
     const { latitude, longitude } = pos.coords;
     setLocation((prevState) => ({
@@ -29,7 +37,9 @@ const useGeoLocation = () => {
     console.error(error);
   }, []);
 
-  navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+  useEffect(() => {
+    getGeoLocation();
+  }, []);
 
   return location;
 };

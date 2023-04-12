@@ -1,0 +1,23 @@
+.CurrentWeatherWrapper {
+    display: flex;
+    width: 80%;
+    padding: 20px;
+
+    .WeatherNow {
+        width: 30%;
+        height: 100%;
+        flex: 2;
+    }
+
+    .WeatherToday {
+        flex: 1;
+    }
+
+    p {
+        font-size: 1.5rem;
+    }
+
+    .Heading {
+        text-align: center;
+    }
+}

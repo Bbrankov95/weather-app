@@ -3,6 +3,8 @@
     "baseUrl": "./src",
     "paths": {
       "hooks": ["hooks"],
+      "components": ["components"],
+      "types": ["types"]
     },
     "target": "ESNext",
     "useDefineForClassFields": true,
