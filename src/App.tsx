@@ -12,7 +12,9 @@ function App() {
   const [error, setError] = useState<unknown | null>(null);
   const { latitude, longitude } = useGeoLocation();
 
-  const currentWeather = !!weather?.current_weather;
+  const currentWeatherData = weather
+    ? { ...weather.current_weather, daily: weather.daily }
+    : null;
 
   const getSetWeather = useCallback(async () => {
     try {
@@ -25,17 +27,6 @@ function App() {
     }
   }, [latitude, longitude]);
 
-  // const getSetWeekWeather = useCallback(async () => {
-  //   try {
-  //     if (latitude && longitude) {
-  //       const data = await getWeekWeather(latitude, longitude);
-  //       console.log(data);
-  //     }
-  //   } catch (error) {
-  //     setError(error);
-  //   }
-  // }, [longitude, latitude]);
-
   useEffect(() => {
     if (latitude && longitude) {
       getSetWeather();
@@ -44,8 +35,8 @@ function App() {
 
   return (
     <div className={classes.App}>
-      {currentWeather ? (
-        <CurrentWeather {...weather.current_weather} />
+      {currentWeatherData ? (
+        <CurrentWeather {...currentWeatherData} />
       ) : (
         <LoadingSpinner />
       )}

@@ -1,18 +1,20 @@
+import clearSky from "assets/weather-day-clear-sky.json";
+
 export const weatherModels: {
-  [key: string]: { forecast: string; lottie: string };
+  [key: string]: { forecast: string; lottie: any };
 } = {
-  0: { forecast: "Clear sky", lottie: "CLEAR_SKY" },
+  0: { forecast: "Clear sky", lottie: clearSky },
   1: {
     forecast: "Mainly clear, partly cloudy, and overcast",
-    lottie: "MAINLY_CLEAR",
+    lottie: clearSky,
   },
   2: {
     forecast: "Mainly clear, partly cloudy, and overcast",
-    lottie: "MAINLY_CLEAR",
+    lottie: clearSky,
   },
   3: {
     forecast: "Mainly clear, partly cloudy, and overcast",
-    lottie: "MAINLY_CLEAR",
+    lottie: clearSky,
   },
   45: { forecast: "Fog and depositing rime fog", lottie: "FOG" },
   48: { forecast: "Fog and depositing rime fog", lottie: "FOG" },

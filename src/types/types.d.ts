@@ -3,14 +3,23 @@ export type GeoLocation = {
   latitude: number | null;
 };
 
-export interface CurrentWeather {
-  temperature?: number;
-  windspeed?: number;
-  winddirection?: number;
-  weathercode?: number;
-  is_day?: number;
-  time?: string;
-}
+export type CurrentWeather = {
+  temperature: number;
+  windspeed: number;
+  winddirection: number;
+  weathercode: number;
+  is_day: number;
+  time: string;
+};
+
+export type DailyWeather = {
+  time: string[];
+  sunrise: string[];
+  sunset: string[];
+  apparent_temperature_max: number[];
+  apparent_temperature_min: number[];
+  weatherCode: number[];
+};
 
 export type Weather = {
   latitude: number;
@@ -20,5 +29,6 @@ export type Weather = {
   timezone: string;
   timezone_abbreviation: string;
   elevation: number;
-  current_weather?: CurrentWeather;
+  current_weather: CurrentWeather;
+  daily: DailyWeather;
 };
