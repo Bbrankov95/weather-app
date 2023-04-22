@@ -29,7 +29,7 @@ import {
 export const weatherModels: {
   [key: string]: { forecast: string; lottie: [night: any, day: any] };
 } = {
-  0: { forecast: "Clear sky", lottie: [clearDay, clearNight] },
+  0: { forecast: "Clear sky", lottie: [clearNight, clearDay] },
   1: {
     forecast: "Mainly clear, partly cloudy, and overcast",
     lottie: [partlyCloudyNight, partlyCloudyDay],

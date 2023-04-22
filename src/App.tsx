@@ -11,7 +11,6 @@ function App() {
   const [weather, setWeather] = useState<Weather | null>(null);
   const [error, setError] = useState<unknown | null>(null);
   const [{ latitude, longitude }, geoLocationError] = useGeoLocation();
-
   const currentWeatherData = weather
     ? { ...weather.current_weather, daily: weather.daily }
     : null;
@@ -41,6 +40,12 @@ function App() {
     <div className={classes.App}>
       {currentWeatherData ? (
         <CurrentWeather {...currentWeatherData} />
+      ) : error ? (
+        <p>
+          {error instanceof Error
+            ? error?.message
+            : "Error Occurred. Please refresh and try again."}
+        </p>
       ) : (
         <LoadingSpinner />
       )}

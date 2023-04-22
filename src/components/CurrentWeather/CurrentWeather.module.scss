@@ -1,5 +1,7 @@
 .CurrentWeatherWrapper {
     display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
     width: 80%;
     padding: 20px;
 
@@ -11,22 +13,62 @@
     }
 
     .WeatherToday {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         flex: 1;
+        font-size: 1.2rem;
 
         .ItemsWrapper {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             padding: 10px;
-            background-color: rgba(#FFFFFF,0.1);
+            background-color: rgba(#FFFFFF,0.2);
         }
     }
 
     .WeatherInfo {
+        &:nth-child(3) {
+            font-size: 2rem;
+        }
+
         font-size: 1.5rem;
+        font-weight: bold;
     }
 
     .Heading {
+        font-size: 2rem;
         text-align: center;
+    }
+}
+
+
+@media screen and (max-width: 700px) {
+    .CurrentWeatherWrapper {
+        flex-direction: column;
+        width: 100%;
+        padding: 10px;
+
+        .WeatherNow {
+            flex: 1;
+            width: initial;
+        }
+
+        .WeatherToday {
+            font-size: 1rem;
+        }
+
+        .WeatherInfo {
+            &:nth-child(3) {
+                font-size: 1.5rem;
+            }
+    
+            font-size: 1rem;
+        }
+
+        .Heading {
+            font-size: 1.5rem;
+        }
     }
 }

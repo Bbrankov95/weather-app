@@ -6,8 +6,12 @@ import { DailyWeather, type CurrentWeather } from "types";
 
 import classes from "./CurrentWeather.module.scss";
 import { WeatherItem } from "./components";
-import { resolveDailyWeather, resolveForecastFromWeatherModel } from "utils";
-import animation from "assets/day/freezing-drizzle.json";
+import {
+  resolveDailyWeather,
+  resolveForecastFromWeatherModel,
+  resolveLottieFromWeatherCode,
+} from "utils";
+
 const options = {
   animationData: "",
   loop: true,
@@ -36,8 +40,8 @@ const CurrentWeather: FC<CurrentWeatherProps> = ({
   winddirection,
   windspeed,
 }) => {
-  const [forecast, lottie] = resolveForecastFromWeatherModel(weathercode);
-  // const animation = lottie?.[is_day];
+  const forecast = resolveForecastFromWeatherModel(weathercode);
+  const lottie = resolveLottieFromWeatherCode(weathercode, is_day);
   const resolvedDailyWeather = resolveDailyWeather({
     ...daily,
     windspeed,
@@ -49,7 +53,7 @@ const CurrentWeather: FC<CurrentWeatherProps> = ({
       <div className={classes.WeatherNow}>
         <h3 className={classes.Heading}>Now</h3>
         <Lottie
-          options={{ ...options, animationData: animation }}
+          options={{ ...options, animationData: lottie }}
           style={{
             width: "60%",
           }}
