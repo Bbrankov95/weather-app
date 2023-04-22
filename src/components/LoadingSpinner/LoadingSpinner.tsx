@@ -1,12 +1,12 @@
 import { memo } from "react";
 import Lottie from "react-lottie";
 
-import loadingSpinner from "assets/weather-loading.json";
+import { loading } from "assets";
 
 import classes from "./LoadingSpinner.module.scss";
 
 const options = {
-  animationData: loadingSpinner,
+  animationData: loading,
   loop: true,
   autoplay: true,
   rendererSettings: {

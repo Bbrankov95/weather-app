@@ -13,8 +13,9 @@ const initialState: GeoLocation = {
   latitude: null,
 };
 
-const useGeoLocation = () => {
+const useGeoLocation = (): [GeoLocation, unknown] => {
   const [location, setLocation] = useState<GeoLocation>(initialState);
+  const [error, setError] = useState<null | unknown>(null);
 
   const getGeoLocation = () => {
     return navigator.geolocation.getCurrentPosition(
@@ -34,14 +35,14 @@ const useGeoLocation = () => {
   }, []);
 
   const onError = useCallback((error: unknown) => {
-    console.error(error);
+    setError(error);
   }, []);
 
   useEffect(() => {
     getGeoLocation();
   }, []);
 
-  return location;
+  return [location, error];
 };
 
 export default useGeoLocation;

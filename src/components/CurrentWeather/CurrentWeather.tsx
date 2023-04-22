@@ -4,14 +4,12 @@ import Lottie from "react-lottie";
 
 import { DailyWeather, type CurrentWeather } from "types";
 
-import rainy from "assets/weather-day-rain.json";
-
 import classes from "./CurrentWeather.module.scss";
 import { WeatherItem } from "./components";
-import { resolveForecastFromWeatherModel } from "utils";
-
+import { resolveDailyWeather, resolveForecastFromWeatherModel } from "utils";
+import animation from "assets/day/freezing-drizzle.json";
 const options = {
-  animationData: rainy,
+  animationData: "",
   loop: true,
   autoplay: true,
   rendererSettings: {
@@ -39,13 +37,19 @@ const CurrentWeather: FC<CurrentWeatherProps> = ({
   windspeed,
 }) => {
   const [forecast, lottie] = resolveForecastFromWeatherModel(weathercode);
+  // const animation = lottie?.[is_day];
+  const resolvedDailyWeather = resolveDailyWeather({
+    ...daily,
+    windspeed,
+    winddirection,
+  });
 
   return (
     <div className={classes.CurrentWeatherWrapper}>
       <div className={classes.WeatherNow}>
         <h3 className={classes.Heading}>Now</h3>
         <Lottie
-          options={{ ...options, animationData: lottie }}
+          options={{ ...options, animationData: animation }}
           style={{
             width: "60%",
           }}
@@ -57,7 +61,11 @@ const CurrentWeather: FC<CurrentWeatherProps> = ({
       </div>
       <div className={classes.WeatherToday}>
         <h3 className={classes.Heading}>Today's Weather</h3>
-        <div></div>
+        <div className={classes.ItemsWrapper}>
+          {resolvedDailyWeather.map(([label, value], i: number) => (
+            <WeatherItem key={`{label}-${i}`} label={label} value={value} />
+          ))}
+        </div>
       </div>
     </div>
   );

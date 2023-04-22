@@ -12,6 +12,14 @@
 
     .WeatherToday {
         flex: 1;
+
+        .ItemsWrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            background-color: rgba(#FFFFFF,0.1);
+        }
     }
 
     .WeatherInfo {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 
 import { CurrentWeather, LoadingSpinner } from "components";
 import { useGeoLocation } from "hooks";
@@ -10,7 +10,7 @@ import classes from "./App.module.scss";
 function App() {
   const [weather, setWeather] = useState<Weather | null>(null);
   const [error, setError] = useState<unknown | null>(null);
-  const { latitude, longitude } = useGeoLocation();
+  const [{ latitude, longitude }, geoLocationError] = useGeoLocation();
 
   const currentWeatherData = weather
     ? { ...weather.current_weather, daily: weather.daily }
@@ -26,6 +26,10 @@ function App() {
       setError(error);
     }
   }, [latitude, longitude]);
+
+  useEffect(() => {
+    setError(geoLocationError);
+  }, [geoLocationError]);
 
   useEffect(() => {
     if (latitude && longitude) {
@@ -44,4 +48,4 @@ function App() {
   );
 }
 
-export default App;
+export default memo(App);
