@@ -1,6 +1,6 @@
 export type GeoLocation = {
-  longitude: number | null;
-  latitude: number | null;
+  longitude: number;
+  latitude: number;
 };
 
 export type CurrentWeather = {
@@ -19,6 +19,8 @@ export type DailyWeather = {
   apparent_temperature_max: number[];
   apparent_temperature_min: number[];
   weatherCode: number[];
+  windspeed_10m_max: number[];
+  winddirection_10m_dominant: number[];
 };
 
 export type Weather = {
@@ -29,6 +31,4 @@ export type Weather = {
   timezone: string;
   timezone_abbreviation: string;
   elevation: number;
-  current_weather: CurrentWeather;
-  daily: DailyWeather;
 };

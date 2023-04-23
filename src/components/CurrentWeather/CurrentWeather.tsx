@@ -1,16 +1,17 @@
-import { FC, memo } from "react";
+import { FC, memo, useState, useEffect, useCallback, useContext } from "react";
 
 import Lottie from "react-lottie";
 
-import { DailyWeather, type CurrentWeather } from "types";
+import { getCurrentWeather } from "api";
+import { type CurrentWeather } from "types";
 
-import classes from "./CurrentWeather.module.scss";
-import { WeatherItem } from "./components";
 import {
-  resolveDailyWeather,
   resolveForecastFromWeatherModel,
   resolveLottieFromWeatherCode,
 } from "utils";
+
+import classes from "./CurrentWeather.module.scss";
+import { GeoLocationContext } from "contexts";
 
 const options = {
   animationData: "",
@@ -21,55 +22,66 @@ const options = {
   },
 };
 
-type CurrentWeatherProps = {
-  daily: DailyWeather;
-  is_day: number;
-  temperature: number;
-  time: string;
-  weathercode: number;
-  winddirection: number;
-  windspeed: number;
+const weatherInitialState: CurrentWeather = {
+  is_day: 0,
+  weathercode: 0,
+  temperature: 0,
+  winddirection: 0,
+  windspeed: 0,
+  time: "",
 };
 
-const CurrentWeather: FC<CurrentWeatherProps> = ({
-  daily,
-  is_day,
-  temperature,
-  time,
-  weathercode,
-  winddirection,
-  windspeed,
-}) => {
+const CurrentWeather = () => {
+  const [currentWeather, setCurrentWeather] =
+    useState<CurrentWeather>(weatherInitialState);
+  const [error, setError] = useState<unknown | null>(null);
+  const { latitude, longitude } = useContext(GeoLocationContext);
+  const { is_day, weathercode, temperature, winddirection, windspeed } =
+    currentWeather;
   const forecast = resolveForecastFromWeatherModel(weathercode);
   const lottie = resolveLottieFromWeatherCode(weathercode, is_day);
-  const resolvedDailyWeather = resolveDailyWeather({
-    ...daily,
-    windspeed,
-    winddirection,
-  });
+  // const resolvedDailyWeather = resolveDailyWeather({
+  //   ...weather?.daily,
+  //   windspeed,
+  //   winddirection,
+  // });
+
+  const getSetCurrentWeather = useCallback(async () => {
+    try {
+      if (latitude && longitude) {
+        const { current_weather } = await getCurrentWeather(
+          latitude,
+          longitude
+        );
+        setCurrentWeather(current_weather);
+      }
+    } catch (error) {
+      setError(error);
+    }
+  }, [latitude, longitude]);
+
+  useEffect(() => {
+    if (latitude && longitude) {
+      getSetCurrentWeather();
+    }
+  }, [latitude, longitude]);
 
   return (
     <div className={classes.CurrentWeatherWrapper}>
       <div className={classes.WeatherNow}>
         <h3 className={classes.Heading}>Now</h3>
         <Lottie
+          isClickToPauseDisabled
           options={{ ...options, animationData: lottie }}
           style={{
-            width: "60%",
+            maxWidth: "400px",
+            height: "auto",
           }}
         />
         <p className={classes.WeatherInfo}>
           Current Temp: {temperature ? Math.round(temperature) : "--"}°C
         </p>
         <p className={classes.WeatherInfo}>{forecast}</p>
-      </div>
-      <div className={classes.WeatherToday}>
-        <h3 className={classes.Heading}>Today's Weather</h3>
-        <div className={classes.ItemsWrapper}>
-          {resolvedDailyWeather.map(([label, value], i: number) => (
-            <WeatherItem key={`{label}-${i}`} label={label} value={value} />
-          ))}
-        </div>
       </div>
     </div>
   );

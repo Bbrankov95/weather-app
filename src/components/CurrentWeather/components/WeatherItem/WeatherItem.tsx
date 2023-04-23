@@ -27,17 +27,17 @@ const options = {
 };
 
 const labelMap: { [key: string]: string } = {
-  winddirection: "Wind Direction",
-  windspeed: "Wind Speed",
+  winddirection_10m_dominant: "Wind Direction",
+  windspeed_10m_max: "Wind Speed",
   apparent_temperature_min: "Min Temp",
   apparent_temperature_max: "Max Temp",
-  weathercode: "Weather",
+  weathercode: "Forecast",
   time: "Last updated",
 };
 
 const labelLottieMap: { [key: string]: any } = {
-  winddirection: compass,
-  windspeed: windsock,
+  winddirection_10m_dominant: compass,
+  windspeed_10m_max: windsock,
   apparent_temperature_min: thermometerColder,
   apparent_temperature_max: thermometer,
   // weathercode: "Weather",
@@ -46,7 +46,7 @@ const labelLottieMap: { [key: string]: any } = {
   sunset: sunset,
 };
 
-const WeatherItem: FC<WeatherItem> = ({ label, value }) => {
+const WeatherItem: FC<WeatherItem> = ({ label = "--|--", value }) => {
   const mappedLabel = labelMap[label];
   const isweathercode = label === "weathercode";
   const mappedLottie = isweathercode
@@ -67,6 +67,7 @@ const WeatherItem: FC<WeatherItem> = ({ label, value }) => {
         </p>
         {mappedLottie ? (
           <Lottie
+            isClickToPauseDisabled
             width={50}
             options={{ ...options, animationData: mappedLottie }}
           />

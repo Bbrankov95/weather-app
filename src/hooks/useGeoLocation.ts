@@ -9,8 +9,8 @@ const options = {
 };
 
 const initialState: GeoLocation = {
-  longitude: null,
-  latitude: null,
+  longitude: 0,
+  latitude: 0,
 };
 
 const useGeoLocation = (): [GeoLocation, unknown] => {
