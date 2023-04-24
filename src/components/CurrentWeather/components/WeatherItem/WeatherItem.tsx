@@ -40,8 +40,6 @@ const labelLottieMap: { [key: string]: any } = {
   windspeed_10m_max: windsock,
   apparent_temperature_min: thermometerColder,
   apparent_temperature_max: thermometer,
-  // weathercode: "Weather",
-  // time: "Last updated",
   sunrise: sunrise,
   sunset: sunset,
 };
@@ -55,7 +53,7 @@ const WeatherItem: FC<WeatherItem> = ({ label = "--|--", value }) => {
   const shouldPutCelsius =
     label === "apparent_temperature_min" ||
     label === "apparent_temperature_max";
-  const shouldPutKmH = label === "windspeed";
+  const shouldPutKmH = label === "windspeed_10m_max";
   return (
     <div className={classes.Wrapper}>
       <label className={classes.Label}>{mappedLabel ?? label}</label>
@@ -63,7 +61,7 @@ const WeatherItem: FC<WeatherItem> = ({ label = "--|--", value }) => {
         <p>
           {isweathercode ? null : value}
           {shouldPutCelsius && "°C"}
-          {shouldPutKmH && "kmH"}
+          {shouldPutKmH && " kmH"}
         </p>
         {mappedLottie ? (
           <Lottie

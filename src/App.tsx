@@ -1,12 +1,12 @@
-import { memo, useContext } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 
 import { CurrentWeather, LoadingSpinner, WeatherToday } from "components";
 
-import { GeoLocationContext } from "contexts";
+import { WeatherContext } from "contexts";
 import classes from "./App.module.scss";
 
 function App() {
-  const { latitude, longitude } = useContext(GeoLocationContext);
+  const { latitude, longitude } = useContext(WeatherContext);
 
   const loading = !latitude || !longitude;
 

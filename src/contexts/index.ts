@@ -1,2 +1,2 @@
-export { GeoLocationContext } from "./GeoLocationContext";
-export { default as GeoLocationContextProvider } from "./GeoLocationContext";
+export { WeatherContext } from "./WeatherContext";
+export { default as WeatherContextProvider } from "./WeatherContext";

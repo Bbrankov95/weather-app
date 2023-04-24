@@ -8,18 +8,23 @@
 
 .App {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  position: relative;
   align-items: center;
   min-width: 100vw;
-  overflow: auto hidden;
+  min-height: 100vh;
+  overflow: hidden;
 
   .ContentWrapper {
     display: flex;
     gap: 20px;
     justify-content: center;
+    align-items: center;
     text-align: center;
     flex: 1;
   }
+
 }
 
 

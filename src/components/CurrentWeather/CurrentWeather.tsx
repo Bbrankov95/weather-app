@@ -11,7 +11,7 @@ import {
 } from "utils";
 
 import classes from "./CurrentWeather.module.scss";
-import { GeoLocationContext } from "contexts";
+import { WeatherContext } from "contexts";
 
 const options = {
   animationData: "",
@@ -22,29 +22,15 @@ const options = {
   },
 };
 
-const weatherInitialState: CurrentWeather = {
-  is_day: 0,
-  weathercode: 0,
-  temperature: 0,
-  winddirection: 0,
-  windspeed: 0,
-  time: "",
-};
-
 const CurrentWeather = () => {
-  const [currentWeather, setCurrentWeather] =
-    useState<CurrentWeather>(weatherInitialState);
   const [error, setError] = useState<unknown | null>(null);
-  const { latitude, longitude } = useContext(GeoLocationContext);
-  const { is_day, weathercode, temperature, winddirection, windspeed } =
-    currentWeather;
+  const { latitude, longitude, currentWeather, setCurrentWeather } =
+    useContext(WeatherContext);
+  const { is_day, weathercode, temperature } = currentWeather;
   const forecast = resolveForecastFromWeatherModel(weathercode);
   const lottie = resolveLottieFromWeatherCode(weathercode, is_day);
-  // const resolvedDailyWeather = resolveDailyWeather({
-  //   ...weather?.daily,
-  //   windspeed,
-  //   winddirection,
-  // });
+
+  const loading = !is_day && !weathercode && !temperature;
 
   const getSetCurrentWeather = useCallback(async () => {
     try {
@@ -68,21 +54,23 @@ const CurrentWeather = () => {
 
   return (
     <div className={classes.CurrentWeatherWrapper}>
-      <div className={classes.WeatherNow}>
-        <h3 className={classes.Heading}>Now</h3>
-        <Lottie
-          isClickToPauseDisabled
-          options={{ ...options, animationData: lottie }}
-          style={{
-            maxWidth: "400px",
-            height: "auto",
-          }}
-        />
-        <p className={classes.WeatherInfo}>
-          Current Temp: {temperature ? Math.round(temperature) : "--"}°C
-        </p>
-        <p className={classes.WeatherInfo}>{forecast}</p>
-      </div>
+      {loading ? null : (
+        <div className={classes.WeatherNow}>
+          <h3 className={classes.Heading}>Now</h3>
+          <Lottie
+            isClickToPauseDisabled
+            options={{ ...options, animationData: lottie }}
+            style={{
+              maxWidth: "400px",
+              height: "auto",
+            }}
+          />
+          <p className={classes.WeatherInfo}>
+            Current Temp: {temperature ? Math.round(temperature) : "--"}°C
+          </p>
+          <p className={classes.WeatherInfo}>{forecast}</p>
+        </div>
+      )}
     </div>
   );
 };

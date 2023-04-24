@@ -1,15 +1,19 @@
 import { convertDegreesToCardinal } from "utils";
 import convertToLocalTimeWithOffset from "./convertToLocalTimeWithOffset";
 
-const resolveDailyWeather = (obj: object) => {
+const resolveDailyWeather = (obj: object, index = 0) => {
   const resolvedEntries = Object.entries(obj).map(([key, val]) => {
     switch (key) {
       case "winddirection_10m_dominant":
-        return [key, convertDegreesToCardinal(val[0])];
+        return [key, convertDegreesToCardinal(val[index])];
       case "sunrise":
-        return [key, convertToLocalTimeWithOffset(val[0])];
+        return [key, convertToLocalTimeWithOffset(val[index])];
       case "sunset":
-        return [key, convertToLocalTimeWithOffset(val[0])];
+        return [key, convertToLocalTimeWithOffset(val[index])];
+      case "apparent_temperature_min":
+        return [key, Math.round(val[index])];
+      case "apparent_temperature_max":
+        return [key, Math.round(val[index])];
       case "time":
         return [
           key,
@@ -19,7 +23,7 @@ const resolveDailyWeather = (obj: object) => {
           }),
         ];
       default:
-        return [key, val[0]];
+        return [key, val[index]];
     }
   });
 

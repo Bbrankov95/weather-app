@@ -18,6 +18,7 @@ const LoadingSpinner = () => {
   return (
     <div className={classes.LoadingSpinnerWrapper}>
       <Lottie
+        isClickToPauseDisabled
         options={options}
         style={{
           width: "30%",

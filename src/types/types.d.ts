@@ -18,7 +18,7 @@ export type DailyWeather = {
   sunset: string[];
   apparent_temperature_max: number[];
   apparent_temperature_min: number[];
-  weatherCode: number[];
+  weathercode: number[];
   windspeed_10m_max: number[];
   winddirection_10m_dominant: number[];
 };

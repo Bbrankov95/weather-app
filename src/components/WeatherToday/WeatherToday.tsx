@@ -5,23 +5,13 @@ import { WeatherItem } from "../CurrentWeather/components";
 
 import classes from "./WeatherToday.module.scss";
 import { getDailyWeather } from "api";
-import { GeoLocationContext } from "contexts";
+import { WeatherContext } from "contexts";
 import { resolveDailyWeather } from "utils";
 
-const initialState: DailyWeather = {
-  apparent_temperature_max: [],
-  apparent_temperature_min: [],
-  sunrise: [],
-  sunset: [],
-  time: [],
-  weatherCode: [],
-  winddirection_10m_dominant: [],
-  windspeed_10m_max: [],
-};
-
 const WeatherToday = () => {
-  const [dailyWeather, setDailyWeather] = useState<DailyWeather>(initialState);
-  const { latitude, longitude } = useContext(GeoLocationContext);
+  const [loading, setLoading] = useState(true);
+  const { latitude, longitude, dailyWeather, setDailyWeather } =
+    useContext(WeatherContext);
   const data = resolveDailyWeather(dailyWeather);
 
   const getSetDailyWeather = async () => {
@@ -30,13 +20,16 @@ const WeatherToday = () => {
       setDailyWeather(daily);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     getSetDailyWeather();
   }, []);
-  return (
+
+  return loading ? null : (
     <div className={classes.WeatherToday}>
       <h3 className={classes.Heading}>Today's Weather</h3>
       <div className={classes.ItemsWrapper}>
