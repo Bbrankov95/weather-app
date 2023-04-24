@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, useContext } from "react";
 
 import classes from "./WeatherItem.module.scss";
 import Lottie from "react-lottie";
@@ -11,6 +11,7 @@ import {
   windsock,
 } from "assets";
 import { resolveLottieFromWeatherCode } from "utils";
+import { WeatherContext } from "contexts";
 
 type WeatherItem = {
   label: string;
@@ -45,10 +46,13 @@ const labelLottieMap: { [key: string]: any } = {
 };
 
 const WeatherItem: FC<WeatherItem> = ({ label = "--|--", value }) => {
+  const {
+    currentWeather: { is_day },
+  } = useContext(WeatherContext);
   const mappedLabel = labelMap[label];
   const isweathercode = label === "weathercode";
   const mappedLottie = isweathercode
-    ? resolveLottieFromWeatherCode(Number(value), 1)
+    ? resolveLottieFromWeatherCode(Number(value), is_day)
     : labelLottieMap[label];
   const shouldPutCelsius =
     label === "apparent_temperature_min" ||

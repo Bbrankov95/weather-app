@@ -3,6 +3,7 @@ import { FC, memo, useState, useEffect, useCallback, useContext } from "react";
 import Lottie from "react-lottie";
 
 import { getCurrentWeather } from "api";
+import { WeatherContext } from "contexts";
 import { type CurrentWeather } from "types";
 
 import {
@@ -10,8 +11,7 @@ import {
   resolveLottieFromWeatherCode,
 } from "utils";
 
-import classes from "./CurrentWeather.module.scss";
-import { WeatherContext } from "contexts";
+import classes from "./WeatherCurrent.module.scss";
 
 const options = {
   animationData: "",

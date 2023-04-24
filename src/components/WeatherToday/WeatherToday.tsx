@@ -1,7 +1,7 @@
 import { memo, useContext, useEffect, useState } from "react";
 
 import { DailyWeather } from "types";
-import { WeatherItem } from "../CurrentWeather/components";
+import { WeatherItem } from "../WeatherCurrent/components";
 
 import classes from "./WeatherToday.module.scss";
 import { getDailyWeather } from "api";
