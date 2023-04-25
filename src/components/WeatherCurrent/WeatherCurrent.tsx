@@ -1,4 +1,4 @@
-import { FC, memo, useState, useEffect, useCallback, useContext } from "react";
+import { memo, useState, useEffect, useCallback, useContext } from "react";
 
 import Lottie from "react-lottie";
 

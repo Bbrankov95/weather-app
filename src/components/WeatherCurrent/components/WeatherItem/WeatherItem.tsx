@@ -16,6 +16,7 @@ import { WeatherContext } from "contexts";
 type WeatherItem = {
   label: string;
   value: string | number;
+  className?: string;
 };
 
 const options = {
@@ -45,7 +46,11 @@ const labelLottieMap: { [key: string]: any } = {
   sunset: sunset,
 };
 
-const WeatherItem: FC<WeatherItem> = ({ label = "--|--", value }) => {
+const WeatherItem: FC<WeatherItem> = ({
+  label = "--|--",
+  value,
+  className,
+}) => {
   const {
     currentWeather: { is_day },
   } = useContext(WeatherContext);
@@ -59,7 +64,7 @@ const WeatherItem: FC<WeatherItem> = ({ label = "--|--", value }) => {
     label === "apparent_temperature_max";
   const shouldPutKmH = label === "windspeed_10m_max";
   return (
-    <div className={classes.Wrapper}>
+    <div className={[classes.Wrapper, className].join(" ")}>
       <label className={classes.Label}>{mappedLabel ?? label}</label>
       <div className={classes.ValueWrapper}>
         <p>

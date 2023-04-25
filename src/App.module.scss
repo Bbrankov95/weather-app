@@ -18,12 +18,39 @@
 
   .ContentWrapper {
     display: flex;
+    flex-direction: column;
     gap: 20px;
     justify-content: center;
     align-items: center;
     text-align: center;
     flex: 1;
+
+    .CurrentWeatherWrapper {
+      display: flex;
+      gap: 20px;
+    }
   }
+
+  .Drawer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100vw;
+    background-color: #242424;
+    bottom: 0;
+    transition: transform 500ms ease-in-out;
+
+    &.Active {
+      transform: translateY(0);
+    }
+
+    &.InActive {
+      transform: translateY(150%);
+    }
+  }
+
+
 
 }
 
@@ -37,6 +64,11 @@
       width: 90%;
       flex: unset;
       flex-wrap: wrap;
+
+        .CurrentWeatherWrapper {
+          flex-direction: column;
+          align-items: center;
+        }
     }
   }
 }
