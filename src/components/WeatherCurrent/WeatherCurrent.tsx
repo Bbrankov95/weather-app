@@ -1,4 +1,11 @@
-import { memo, useState, useEffect, useCallback, useContext } from "react";
+import {
+  memo,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  useRef,
+} from "react";
 
 import Lottie from "react-lottie";
 
@@ -26,15 +33,15 @@ const CurrentWeather = () => {
   const [error, setError] = useState<unknown | null>(null);
   const { latitude, longitude, currentWeather, setCurrentWeather } =
     useContext(WeatherContext);
-  const { is_day, weathercode, temperature } = currentWeather;
+  const { is_day, weathercode, temperature, time } = currentWeather;
   const forecast = resolveForecastFromWeatherModel(weathercode);
   const lottie = resolveLottieFromWeatherCode(weathercode, is_day);
-
   const loading = !is_day && !weathercode && !temperature;
-
+  const shouldFetch = latitude && longitude;
+  const mountRef = useRef(true);
   const getSetCurrentWeather = useCallback(async () => {
     try {
-      if (latitude && longitude) {
+      if (latitude && longitude && shouldFetch) {
         const { current_weather } = await getCurrentWeather(
           latitude,
           longitude
@@ -47,8 +54,9 @@ const CurrentWeather = () => {
   }, [latitude, longitude]);
 
   useEffect(() => {
-    if (latitude && longitude) {
+    if (mountRef.current && shouldFetch) {
       getSetCurrentWeather();
+      mountRef.current = false;
     }
   }, [latitude, longitude]);
 
@@ -56,7 +64,7 @@ const CurrentWeather = () => {
     <div className={classes.CurrentWeatherWrapper}>
       {loading ? null : (
         <div className={classes.WeatherNow}>
-          <h3 className={classes.Heading}>Now</h3>
+          <h1 className={classes.Heading}>Now</h1>
           <Lottie
             isClickToPauseDisabled
             options={{ ...options, animationData: lottie }}
