@@ -11,9 +11,9 @@ const resolveDailyWeather = (obj: object, index = 0) => {
       case "sunset":
         return [key, convertToLocalTimeWithOffset(val[index])];
       case "apparent_temperature_min":
-        return [key, Math.round(val[index])];
+        return [key, Math.round(val[index] ?? 0)];
       case "apparent_temperature_max":
-        return [key, Math.round(val[index])];
+        return [key, Math.round(val[index] ?? 0)];
       case "time":
         return [
           key,

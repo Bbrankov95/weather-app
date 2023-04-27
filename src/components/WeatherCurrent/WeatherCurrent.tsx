@@ -62,7 +62,9 @@ const CurrentWeather = () => {
 
   return (
     <div className={classes.CurrentWeatherWrapper}>
-      {loading ? null : (
+      {loading ? (
+        <div />
+      ) : (
         <div className={classes.WeatherNow}>
           <h1 className={classes.Heading}>Now</h1>
           <Lottie
