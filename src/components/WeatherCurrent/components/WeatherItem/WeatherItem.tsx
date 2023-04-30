@@ -1,7 +1,6 @@
-import { FC, memo, useContext } from "react";
-
-import classes from "./WeatherItem.module.scss";
+import { FC, memo, useContext, useEffect } from "react";
 import Lottie from "react-lottie";
+
 import {
   compass,
   sunrise,
@@ -12,6 +11,9 @@ import {
 } from "assets";
 import { resolveLottieFromWeatherCode } from "utils";
 import { WeatherContext } from "contexts";
+
+import classes from "./WeatherItem.module.scss";
+import { stagger, useAnimate, usePresence } from "framer-motion";
 
 type WeatherItem = {
   label: string;
@@ -37,7 +39,7 @@ const labelMap: { [key: string]: string } = {
   time: "Last updated",
 };
 
-const labelLottieMap: { [key: string]: any } = {
+const labelLottieMap: { [key: string]: unknown } = {
   winddirection_10m_dominant: compass,
   windspeed_10m_max: windsock,
   apparent_temperature_min: thermometerColder,
@@ -51,9 +53,12 @@ const WeatherItem: FC<WeatherItem> = ({
   value,
   className,
 }) => {
+  const [isPresent, safeToRemove] = usePresence();
+  const [scope, animate] = useAnimate();
   const {
     currentWeather: { is_day },
   } = useContext(WeatherContext);
+
   const mappedLabel = labelMap[label];
   const isweathercode = label === "weathercode";
   const mappedLottie = isweathercode
@@ -63,8 +68,30 @@ const WeatherItem: FC<WeatherItem> = ({
     label === "apparent_temperature_min" ||
     label === "apparent_temperature_max";
   const shouldPutKmH = label === "windspeed_10m_max";
+
+  const enterAnimation = async () => {
+    await animate(
+      "div",
+      {
+        opacity: [0, 1],
+      },
+      {
+        duration: 0.5,
+        ease: "easeInOut",
+        delay: stagger(0.3, { startDelay: 2 }),
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (isPresent) {
+      enterAnimation();
+    } else {
+      safeToRemove();
+    }
+  }, [isPresent, value]);
   return (
-    <div className={[classes.Wrapper, className].join(" ")}>
+    <div ref={scope} className={[classes.Wrapper, className].join(" ")}>
       <label className={classes.Label}>{mappedLabel ?? label}</label>
       <div className={classes.ValueWrapper}>
         <p>

@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useRef,
+  FC,
 } from "react";
 
 import Lottie from "react-lottie";
@@ -41,7 +42,7 @@ const CurrentWeather = () => {
   const mountRef = useRef(true);
   const getSetCurrentWeather = useCallback(async () => {
     try {
-      if (latitude && longitude && shouldFetch) {
+      if (latitude && longitude) {
         const { current_weather } = await getCurrentWeather(
           latitude,
           longitude
@@ -59,11 +60,15 @@ const CurrentWeather = () => {
       mountRef.current = false;
     }
   }, [latitude, longitude]);
-
   return (
     <div className={classes.CurrentWeatherWrapper}>
       {loading ? (
-        <div />
+        <div
+          style={{
+            width: "400px",
+            background: "rgba(#FFFFFF,0.1)",
+          }}
+        />
       ) : (
         <div className={classes.WeatherNow}>
           <h1 className={classes.Heading}>Now</h1>

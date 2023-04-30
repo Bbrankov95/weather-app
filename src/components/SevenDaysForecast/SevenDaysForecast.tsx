@@ -1,4 +1,5 @@
 import { memo, useContext } from "react";
+import { useAnimate } from "framer-motion";
 
 import { WeatherContext } from "contexts";
 
