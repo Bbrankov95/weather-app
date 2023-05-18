@@ -10,7 +10,7 @@ import classes from "./WeatherToday.module.scss";
 
 const WeatherToday = () => {
   const [scope, animate] = useAnimate();
-  const [isPresent, safeToRemove] = usePresence();
+  const [isPresent] = usePresence();
   const [loading, setLoading] = useState(true);
   const { latitude, longitude, dailyWeather, setDailyWeather } =
     useContext(WeatherContext);
@@ -43,7 +43,7 @@ const WeatherToday = () => {
         x: [-100, 0],
         visibility: "visible",
       },
-      { duration: 1, delay: stagger(0.1), ease: "easeInOut" }
+      { duration: 0.7, delay: stagger(0.1), ease: "backOut" }
     );
   };
 
@@ -53,8 +53,13 @@ const WeatherToday = () => {
     }
   }, [isPresent, data]);
 
-  return loading ? null : (
-    <div className={classes.WeatherToday}>
+  return (
+    <div
+      style={{
+        visibility: loading ? "hidden" : "visible",
+      }}
+      className={classes.WeatherToday}
+    >
       <h2 className={classes.Heading}>Today's Weather</h2>
       <div ref={scope} className={classes.ItemsWrapper}>
         {data.map(([label, value], i: number) => (

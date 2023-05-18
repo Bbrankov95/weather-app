@@ -16,6 +16,9 @@ type WeatherContext = {
   setCurrentWeather: React.Dispatch<SetStateAction<CurrentWeather>>;
   dailyWeather: DailyWeather;
   setDailyWeather: React.Dispatch<SetStateAction<DailyWeather>>;
+  geoLocationError: unknown;
+  loading: boolean;
+  getGeoLocation: () => void;
 };
 
 export const WeatherContext = createContext<WeatherContext>({
@@ -41,6 +44,9 @@ export const WeatherContext = createContext<WeatherContext>({
     windspeed_10m_max: [],
   },
   setDailyWeather: (prevState) => prevState,
+  geoLocationError: "",
+  loading: true,
+  getGeoLocation() {},
 });
 
 type WeatherContextProvider = {
@@ -74,7 +80,8 @@ const WeatherContextProvider: FC<WeatherContextProvider> = ({ children }) => {
     dailyWeatherInitialState
   );
 
-  const [{ latitude, longitude }, geoLocationError] = useGeoLocation();
+  const [{ latitude, longitude }, geoLocationError, loading, getGeoLocation] =
+    useGeoLocation();
 
   const value = {
     latitude,
@@ -83,6 +90,9 @@ const WeatherContextProvider: FC<WeatherContextProvider> = ({ children }) => {
     setCurrentWeather,
     dailyWeather,
     setDailyWeather,
+    geoLocationError,
+    loading,
+    getGeoLocation,
   };
 
   return (

@@ -19,6 +19,7 @@ type WeatherItem = {
   label: string;
   value: string | number;
   className?: string;
+  animationDelay?: number;
 };
 
 const options = {
@@ -52,6 +53,7 @@ const WeatherItem: FC<WeatherItem> = ({
   label = "--|--",
   value,
   className,
+  animationDelay = 2,
 }) => {
   const [isPresent, safeToRemove] = usePresence();
   const [scope, animate] = useAnimate();
@@ -78,7 +80,7 @@ const WeatherItem: FC<WeatherItem> = ({
       {
         duration: 0.5,
         ease: "easeInOut",
-        delay: stagger(0.3, { startDelay: 2 }),
+        delay: stagger(0.3, { startDelay: animationDelay }),
       }
     );
   };

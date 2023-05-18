@@ -1,0 +1,22 @@
+$perfectPillShape: 9999px;
+
+.Wrapper {
+    display: flex;
+    background-color: #3a3a3a;
+    border-radius: $perfectPillShape;
+    overflow: hidden;
+
+    .Tab {
+
+        transition: color 300ms;
+        color: #FFF;
+        background-color: transparent;
+        border: none;
+        font-size: 1rem;
+       
+
+        &.ActiveTab {
+            color: #646cff;
+        }
+    }
+}

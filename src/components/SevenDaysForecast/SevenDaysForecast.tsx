@@ -22,6 +22,7 @@ const SevenDaysForecast = () => {
               className={classes.Item}
               label={label as string}
               value={value}
+              animationDelay={0}
             />
           ))}
         </div>

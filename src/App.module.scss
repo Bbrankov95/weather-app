@@ -24,6 +24,7 @@
     align-items: center;
     text-align: center;
     flex: 1;
+    user-select: none;
 
     .CurrentWeatherWrapper {
       display: flex;
@@ -50,7 +51,14 @@
     }
   }
 
-
+.ErrorMsg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  font-weight: bold;
+}
 
 }
 

@@ -1,6 +1,7 @@
 .CurrentWeatherWrapper {
     display: flex;
     gap: 10px;
+    min-height: 75vh;
 
     .WeatherNow {
         width: 100%;
@@ -27,6 +28,7 @@
 @media screen and (max-width: 800px) {
     .CurrentWeatherWrapper {
         padding: 10px;
+        min-height: auto;
 
         .WeatherNow {
             flex: 1;
