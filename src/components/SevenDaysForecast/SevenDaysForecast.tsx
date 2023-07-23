@@ -13,20 +13,23 @@ const SevenDaysForecast = () => {
 
   return (
     <div className={classes.Wrapper}>
-      {forecast.map(({ name, forecast }, i) => (
-        <div key={`${i}-${name}`} className={classes.ForecastWrapper}>
-          <h3>{name}</h3>
-          {forecast.map(([label, value], ii: number) => (
-            <WeatherItem
-              key={`${i}-${label}-${ii}`}
-              className={classes.Item}
-              label={label as string}
-              value={value}
-              animationDelay={0}
-            />
-          ))}
-        </div>
-      ))}
+      <h1>Seven Days Forecast</h1>
+      <div className={classes.InnerWrapper}>
+        {forecast.map(({ name, forecast }, i) => (
+          <div key={`${i}-${name}`} className={classes.ForecastWrapper}>
+            <h3>{name}</h3>
+            {forecast.map(([label, value], ii: number) => (
+              <WeatherItem
+                key={`${i}-${label}-${ii}`}
+                className={classes.Item}
+                label={label as string}
+                value={value}
+                animationDelay={0}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

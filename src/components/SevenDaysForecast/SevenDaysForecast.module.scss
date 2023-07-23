@@ -1,19 +1,29 @@
 .Wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  gap: 20px;
+  min-height: 75vh;
+
+  .InnerWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
-    min-height: 75vh;
+    flex-direction: row;
+    width: 100%;
 
     .ForecastWrapper {
-        display: flex;
-        flex-direction: column;
-        background-color: transparent;
+      display: flex;
+      flex-direction: column;
+      background-color: transparent;
 
-        .Item {
-            min-width: 150px;
-        }
+      .Item {
+        min-width: 150px;
+      }
     }
-    
+  }
 }

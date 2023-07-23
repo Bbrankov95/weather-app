@@ -6,6 +6,7 @@ import {
   useContext,
   useRef,
   FC,
+  useMemo,
 } from "react";
 
 import Lottie from "react-lottie";
@@ -35,14 +36,20 @@ const CurrentWeather = () => {
   const { latitude, longitude, currentWeather, setCurrentWeather } =
     useContext(WeatherContext);
   const { is_day, weathercode, temperature, time } = currentWeather;
-  const forecast = resolveForecastFromWeatherModel(weathercode);
-  const lottie = resolveLottieFromWeatherCode(weathercode, is_day);
+  const forecast = useMemo(
+    () => resolveForecastFromWeatherModel(weathercode),
+    [weathercode]
+  );
+  const lottie = useMemo(
+    () => resolveLottieFromWeatherCode(weathercode, is_day),
+    [weathercode, is_day]
+  );
   const loading = !is_day && !weathercode && !temperature;
   const shouldFetch = latitude && longitude;
   const mountRef = useRef(true);
   const getSetCurrentWeather = useCallback(async () => {
     try {
-      if (latitude && longitude) {
+      if (shouldFetch) {
         const { current_weather } = await getCurrentWeather(
           latitude,
           longitude
@@ -52,7 +59,7 @@ const CurrentWeather = () => {
     } catch (error) {
       setError(error);
     }
-  }, [latitude, longitude]);
+  }, [shouldFetch]);
 
   useEffect(() => {
     if (mountRef.current && shouldFetch) {
