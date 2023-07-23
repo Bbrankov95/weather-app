@@ -21,7 +21,7 @@ const LoadingSpinner = () => {
         isClickToPauseDisabled
         options={options}
         style={{
-          width: "30%",
+          width: "250px",
         }}
       />
       <p>We are currently checking your geolocation, please wait...</p>

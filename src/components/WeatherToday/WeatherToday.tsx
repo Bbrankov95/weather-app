@@ -25,7 +25,6 @@ const WeatherToday = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
     }
   };
 
