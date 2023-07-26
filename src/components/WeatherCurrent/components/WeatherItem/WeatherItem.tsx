@@ -1,4 +1,4 @@
-import { FC, memo, useContext, useEffect } from "react";
+import { FC, memo, useCallback, useContext, useEffect } from "react";
 import Lottie from "react-lottie";
 
 import {
@@ -15,7 +15,7 @@ import { WeatherContext } from "contexts";
 import classes from "./WeatherItem.module.scss";
 import { stagger, useAnimate, usePresence } from "framer-motion";
 
-type WeatherItem = {
+type WeatherItemProps = {
   label: string;
   value: string | number;
   className?: string;
@@ -49,7 +49,7 @@ const labelLottieMap: { [key: string]: unknown } = {
   sunset: sunset,
 };
 
-const WeatherItem: FC<WeatherItem> = ({
+const WeatherItem: FC<WeatherItemProps> = ({
   label = "--|--",
   value,
   className,
@@ -71,7 +71,7 @@ const WeatherItem: FC<WeatherItem> = ({
     label === "apparent_temperature_max";
   const shouldPutKmH = label === "windspeed_10m_max";
 
-  const enterAnimation = async () => {
+  const enterAnimation = useCallback(async () => {
     await animate(
       "div",
       {
@@ -83,7 +83,7 @@ const WeatherItem: FC<WeatherItem> = ({
         delay: stagger(0.3, { startDelay: animationDelay }),
       }
     );
-  };
+  }, [animate, animationDelay]);
 
   useEffect(() => {
     if (isPresent) {
@@ -91,7 +91,7 @@ const WeatherItem: FC<WeatherItem> = ({
     } else {
       safeToRemove();
     }
-  }, [isPresent, value]);
+  }, [isPresent, value, enterAnimation, safeToRemove]);
   return (
     <div ref={scope} className={[classes.Wrapper, className].join(" ")}>
       <label className={classes.Label}>{mappedLabel ?? label}</label>

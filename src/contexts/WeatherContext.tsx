@@ -9,7 +9,7 @@ import React, {
 import { useGeoLocation } from "hooks";
 import { GeoLocation, CurrentWeather, DailyWeather } from "types";
 
-type WeatherContext = {
+type WeatherContextProps = {
   longitude: GeoLocation["longitude"];
   latitude: GeoLocation["latitude"];
   currentWeather: CurrentWeather;
@@ -21,7 +21,7 @@ type WeatherContext = {
   getGeoLocation: () => void;
 };
 
-export const WeatherContext = createContext<WeatherContext>({
+export const WeatherContext = createContext<WeatherContextProps>({
   longitude: 0,
   latitude: 0,
   currentWeather: {
@@ -49,7 +49,7 @@ export const WeatherContext = createContext<WeatherContext>({
   getGeoLocation() {},
 });
 
-type WeatherContextProvider = {
+type WeatherContextProviderProps = {
   children: React.ReactNode;
 };
 
@@ -73,7 +73,9 @@ const dailyWeatherInitialState: DailyWeather = {
   windspeed_10m_max: [],
 };
 
-const WeatherContextProvider: FC<WeatherContextProvider> = ({ children }) => {
+const WeatherContextProvider: FC<WeatherContextProviderProps> = ({
+  children,
+}) => {
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeather>(weatherInitialState);
   const [dailyWeather, setDailyWeather] = useState<DailyWeather>(

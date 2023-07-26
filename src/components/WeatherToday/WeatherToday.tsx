@@ -1,4 +1,11 @@
-import { memo, useContext, useEffect, useState, useRef } from "react";
+import {
+  memo,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import { stagger, useAnimate, usePresence } from "framer-motion";
 
 import { getDailyWeather } from "api";
@@ -11,14 +18,14 @@ import classes from "./WeatherToday.module.scss";
 const WeatherToday = () => {
   const [scope, animate] = useAnimate();
   const [isPresent] = usePresence();
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(true);
   const { latitude, longitude, dailyWeather, setDailyWeather } =
     useContext(WeatherContext);
   const mountRef = useRef(true);
 
   const data = resolveDailyWeather(dailyWeather);
 
-  const getSetDailyWeather = async () => {
+  const getSetDailyWeather = useCallback(async () => {
     try {
       const { daily } = await getDailyWeather(latitude, longitude);
       setDailyWeather(daily);
@@ -26,16 +33,9 @@ const WeatherToday = () => {
       console.error(error);
     } finally {
     }
-  };
+  }, [latitude, longitude, setDailyWeather]);
 
-  useEffect(() => {
-    if (mountRef.current) {
-      getSetDailyWeather();
-      mountRef.current = false;
-    }
-  }, []);
-
-  const animation = async () => {
+  const animation = useCallback(async () => {
     await animate(
       "div",
       {
@@ -44,13 +44,20 @@ const WeatherToday = () => {
       },
       { duration: 0.7, delay: stagger(0.1), ease: "backOut" }
     );
-  };
+  }, [animate]);
+
+  useEffect(() => {
+    if (mountRef.current) {
+      getSetDailyWeather();
+      mountRef.current = false;
+    }
+  }, [getSetDailyWeather]);
 
   useEffect(() => {
     if (isPresent && scope.current?.children?.length) {
       animation();
     }
-  }, [isPresent, data]);
+  }, [isPresent, data, scope, animation]);
 
   return (
     <div
