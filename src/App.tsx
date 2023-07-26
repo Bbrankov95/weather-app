@@ -1,7 +1,7 @@
 import { memo, useContext, useState } from "react";
 
 import {
-  CurrentWeather,
+  WeatherCurrent,
   LoadingSpinner,
   SevenDaysForecast,
   Tabber,
@@ -18,7 +18,7 @@ const tabs = [
     label: "Today's Weather",
     component: (
       <>
-        <CurrentWeather />
+        <WeatherCurrent />
         <WeatherToday />
       </>
     ),

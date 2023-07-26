@@ -8,12 +8,12 @@ type Tab = {
   component: JSX.Element;
 };
 
-type Tabber = {
+type TabberProps = {
   tabs: Tab[];
   onTabChange?: (tab: Tab) => void;
 };
 
-const Tabber: FC<Tabber> = ({ tabs, onTabChange }) => {
+const Tabber: FC<TabberProps> = ({ tabs, onTabChange }) => {
   const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
 
   useEffect(() => {
@@ -21,7 +21,8 @@ const Tabber: FC<Tabber> = ({ tabs, onTabChange }) => {
       setSelectedTab(tabs[0]);
       typeof onTabChange === "function" && onTabChange(tabs[0]);
     }
-  }, [tabs]);
+  }, [onTabChange, selectedTab, tabs]);
+
   return (
     <div className={classes.Wrapper}>
       {tabs?.map((tab: Tab, i: number) => {

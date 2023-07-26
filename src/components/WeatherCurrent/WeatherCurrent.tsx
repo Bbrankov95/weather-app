@@ -5,7 +5,6 @@ import {
   useCallback,
   useContext,
   useRef,
-  FC,
   useMemo,
 } from "react";
 
@@ -13,7 +12,7 @@ import Lottie from "react-lottie";
 
 import { getCurrentWeather } from "api";
 import { WeatherContext } from "contexts";
-import { type CurrentWeather } from "types";
+import { type CurrentWeather as WeatherCurrent } from "types";
 
 import {
   resolveForecastFromWeatherModel,
@@ -31,11 +30,11 @@ const options = {
   },
 };
 
-const CurrentWeather = () => {
-  const [error, setError] = useState<unknown | null>(null);
+const WeatherCurrent = () => {
+  const [, setError] = useState<unknown | null>(null);
   const { latitude, longitude, currentWeather, setCurrentWeather } =
     useContext(WeatherContext);
-  const { is_day, weathercode, temperature, time } = currentWeather;
+  const { is_day, weathercode, temperature } = currentWeather;
   const forecast = useMemo(
     () => resolveForecastFromWeatherModel(weathercode),
     [weathercode]
@@ -44,9 +43,16 @@ const CurrentWeather = () => {
     () => resolveLottieFromWeatherCode(weathercode, is_day),
     [weathercode, is_day]
   );
-  const loading = !is_day && !weathercode && !temperature;
-  const shouldFetch = latitude && longitude;
+  const loading = useMemo(
+    () => !is_day && !weathercode && !temperature,
+    [is_day, temperature, weathercode]
+  );
+  const shouldFetch = useMemo(
+    () => latitude && longitude,
+    [latitude, longitude]
+  );
   const mountRef = useRef(true);
+
   const getSetCurrentWeather = useCallback(async () => {
     try {
       if (shouldFetch) {
@@ -59,14 +65,14 @@ const CurrentWeather = () => {
     } catch (error) {
       setError(error);
     }
-  }, [shouldFetch]);
+  }, [latitude, longitude, setCurrentWeather, shouldFetch]);
 
   useEffect(() => {
     if (mountRef.current && shouldFetch) {
       getSetCurrentWeather();
       mountRef.current = false;
     }
-  }, [latitude, longitude]);
+  }, [getSetCurrentWeather, latitude, longitude, shouldFetch]);
   return (
     <div className={classes.CurrentWeatherWrapper}>
       {loading ? (
@@ -97,4 +103,4 @@ const CurrentWeather = () => {
   );
 };
 
-export default memo(CurrentWeather);
+export default memo(WeatherCurrent);
