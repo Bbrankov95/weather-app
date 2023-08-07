@@ -12,7 +12,6 @@ import Lottie from "react-lottie";
 
 import { getCurrentWeather } from "api";
 import { WeatherContext } from "contexts";
-import { type CurrentWeather as WeatherCurrent } from "types";
 
 import {
   resolveForecastFromWeatherModel,

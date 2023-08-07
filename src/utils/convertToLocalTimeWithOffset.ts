@@ -1,5 +1,4 @@
-const convertToLocalTimeWithOffset = (time: string) => {
-  if (!new Date(time)) return;
+const convertToLocalTimeWithOffset = (time: string): string => {
   const timeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
   const timeResolved = new Date(
     new Date(time).getTime() - timeZoneOffset

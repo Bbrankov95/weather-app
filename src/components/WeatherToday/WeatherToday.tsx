@@ -69,7 +69,11 @@ const WeatherToday = () => {
       <h2 className={classes.Heading}>Today's Weather</h2>
       <div ref={scope} className={classes.ItemsWrapper}>
         {data.map(([label, value], i: number) => (
-          <WeatherItem key={`{label}-${i}`} label={label} value={value} />
+          <WeatherItem
+            key={`{label}-${i}`}
+            label={label as string}
+            value={value}
+          />
         ))}
       </div>
     </div>
