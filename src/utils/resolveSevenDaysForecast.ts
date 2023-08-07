@@ -8,12 +8,14 @@ const weekday = [
   "Thursday",
   "Friday",
   "Saturday",
-];
+] as const;
+
+type Day = (typeof weekday)[number];
 
 const resolveSevenDaysForecast = (obj: DailyWeather) => {
   const forecast = [];
   for (let i = 0; i < 7; i++) {
-    const day = weekday[new Date(obj.time[i]).getDay()];
+    const day: Day = weekday[new Date(obj.time[i]).getDay()];
     const forecastData = {
       weathercode: obj.weathercode,
       apparent_temperature_min: obj.apparent_temperature_min.map((val) =>

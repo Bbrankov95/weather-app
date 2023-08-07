@@ -1,7 +1,8 @@
 import { weatherModels } from "shared";
-import resolveLottieFromWeatherModel from "./resolveLottieFromWeatherCode";
 
-const resolveForecastFromWeatherModel = (weathercode: number) => {
+type WeatherCode = keyof typeof weatherModels;
+
+const resolveForecastFromWeatherModel = (weathercode: WeatherCode) => {
   return typeof weatherModels?.[weathercode]?.forecast !== "undefined"
     ? weatherModels?.[weathercode].forecast
     : "N/A";

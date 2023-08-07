@@ -27,7 +27,7 @@ import {
 } from "assets";
 
 export const weatherModels: {
-  [key: string]: { forecast: string; lottie: [night: any, day: any] };
+  [key: number]: { forecast: string; lottie: [night: any, day: any] };
 } = {
   0: { forecast: "Clear sky", lottie: [clearNight, clearDay] },
   1: {
