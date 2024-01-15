@@ -93,7 +93,7 @@ const WeatherCurrent = () => {
             }}
           />
           <p className={classes.WeatherInfo}>
-            Current Temp: {temperature ? Math.round(temperature) : "--"}°C
+            Current Temp: {Math.round(temperature)}°C
           </p>
           <p className={classes.WeatherInfo}>{forecast}</p>
         </div>
