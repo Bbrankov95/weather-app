@@ -18,16 +18,6 @@ const useGeoLocation = (): [GeoLocation, unknown, boolean, () => void] => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<null | unknown>(null);
 
-  const getGeoLocation = () => {
-    setError(null);
-    setLoading(true);
-    return navigator.geolocation.getCurrentPosition(
-      onSuccess,
-      onError,
-      options
-    );
-  };
-
   const onSuccess = useCallback((pos: GeolocationPosition) => {
     const { latitude, longitude } = pos.coords;
     setLocation((prevState) => ({
@@ -43,9 +33,19 @@ const useGeoLocation = (): [GeoLocation, unknown, boolean, () => void] => {
     setLoading(false);
   }, []);
 
+  const getGeoLocation = useCallback(() => {
+    setError(null);
+    setLoading(true);
+    return navigator.geolocation.getCurrentPosition(
+      onSuccess,
+      onError,
+      options
+    );
+  }, [onError, onSuccess]);
+
   useEffect(() => {
     getGeoLocation();
-  }, []);
+  }, [getGeoLocation]);
 
   return [location, error, loading, getGeoLocation];
 };

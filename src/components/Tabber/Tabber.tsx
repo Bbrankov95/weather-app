@@ -13,13 +13,16 @@ type TabberProps = {
   onTabChange?: (tab: Tab) => void;
 };
 
-const Tabber: FC<TabberProps> = ({ tabs, onTabChange }) => {
+const Tabber: FC<TabberProps> = ({ tabs = [], onTabChange }) => {
   const [selectedTab, setSelectedTab] = useState<Tab | null>(null);
 
   useEffect(() => {
     if (selectedTab === null && tabs.length) {
-      setSelectedTab(tabs[0]);
-      typeof onTabChange === "function" && onTabChange(tabs[0]);
+      const [firstTab] = tabs ?? [];
+      if (typeof firstTab !== "undefined") {
+        setSelectedTab(firstTab);
+      }
+      typeof onTabChange === "function" && onTabChange(firstTab);
     }
   }, [onTabChange, selectedTab, tabs]);
 

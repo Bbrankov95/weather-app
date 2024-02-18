@@ -12,20 +12,27 @@ const weekday = [
 
 type Day = (typeof weekday)[number];
 
-const resolveSevenDaysForecast = (obj: DailyWeather) => {
+const resolveSevenDaysForecast = (dailyWeather: DailyWeather) => {
   const forecast = [];
+  const {
+    apparent_temperature_max = [],
+    apparent_temperature_min = [],
+    time,
+    weathercode,
+  } = dailyWeather ?? {};
+
   for (let i = 0; i < 7; i++) {
-    const day: Day = weekday[new Date(obj.time[i]).getDay()];
+    const day: Day = weekday[new Date(time[i]).getDay()];
     const forecastData = {
-      weathercode: obj.weathercode,
-      apparent_temperature_min: obj.apparent_temperature_min.map((val) =>
+      weathercode,
+      apparent_temperature_min: apparent_temperature_min.map((val) =>
         Math.round(val)
       ),
-      apparent_temperature_max: obj.apparent_temperature_max.map((val) =>
+      apparent_temperature_max: apparent_temperature_max.map((val) =>
         Math.round(val)
       ),
     };
-    const resolvedForecast = Object.entries(forecastData).map(
+    const resolvedForecast = Object.entries(forecastData ?? {}).map(
       ([key, val]: [key: string, val: number[]]) => [key, val?.[i]]
     );
     forecast.push({

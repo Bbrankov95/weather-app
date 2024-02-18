@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useContext, useEffect } from "react";
+import { FC, memo, useCallback, useContext, useEffect, useMemo } from "react";
 import Lottie from "react-lottie";
 
 import {
@@ -63,9 +63,13 @@ const WeatherItem: FC<WeatherItemProps> = ({
 
   const mappedLabel = labelMap[label];
   const isweathercode = label === "weathercode";
-  const mappedLottie = isweathercode
-    ? resolveLottieFromWeatherCode(Number(value), is_day)
-    : labelLottieMap[label];
+  const mappedLottie = useMemo(
+    () =>
+      isweathercode
+        ? resolveLottieFromWeatherCode(Number(value), is_day)
+        : labelLottieMap[label],
+    [is_day, isweathercode, label, value]
+  );
   const shouldPutCelsius =
     label === "apparent_temperature_min" ||
     label === "apparent_temperature_max";
@@ -92,14 +96,15 @@ const WeatherItem: FC<WeatherItemProps> = ({
       safeToRemove();
     }
   }, [isPresent, value, enterAnimation, safeToRemove]);
+
   return (
     <div ref={scope} className={[classes.Wrapper, className].join(" ")}>
       <label className={classes.Label}>{mappedLabel ?? label}</label>
       <div className={classes.ValueWrapper}>
         <p>
           {isweathercode ? null : value}
-          {shouldPutCelsius && "°C"}
-          {shouldPutKmH && " kmH"}
+          {shouldPutCelsius ? "°C" : null}
+          {shouldPutKmH ? " kmH" : null}
         </p>
         {mappedLottie ? (
           <Lottie

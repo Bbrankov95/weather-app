@@ -6,10 +6,9 @@ const resolveLottieFromWeatherCode = (
   weathercode: WeatherCode,
   is_day: number
 ) => {
-  return (
-    typeof weatherModels?.[weathercode]?.lottie !== "undefined" &&
-    weatherModels?.[weathercode]?.lottie?.[is_day]
-  );
+  const { lottie } = weatherModels?.[weathercode] ?? {};
+
+  return typeof lottie !== "undefined" && lottie?.[is_day];
 };
 
 export default resolveLottieFromWeatherCode;
